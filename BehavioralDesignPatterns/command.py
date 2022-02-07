@@ -88,3 +88,7 @@ class Commander:
             cmd = self._redo_stack
             cmd.execute(self._robot)
             self._undo_stack(cmd)
+
+
+def main():
+
