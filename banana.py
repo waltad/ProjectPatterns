@@ -1,7 +1,5 @@
 import itertools
 
-import itertools
-
 
 def bananas(s):
     result = set()
