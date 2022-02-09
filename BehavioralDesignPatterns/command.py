@@ -87,7 +87,7 @@ class Commander:
         if self._redo_stack:
             cmd = self._redo_stack.pop()
             cmd.execute(self._robot)
-            self._undo_stack(cmd)
+            self._undo_stack.append(cmd)
 
 
 def main():
