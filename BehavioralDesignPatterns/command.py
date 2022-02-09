@@ -6,12 +6,12 @@ Uzupełnij program o interakcję z użytkownikiem, który będzie podawał polec
 
 
 class Robot:
-    def __init__(self, pos_x, pos_y):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
+    def __init__(self):
+        self.pos_x = 0.0
+        self.pos_y = 0.0
 
     def __str__(self):
-        return f"({self.pos.x}, {self.pos_y})"
+        return f"({self.pos_x}, {self.pos_y})"
 
 
 class Command:
@@ -85,10 +85,39 @@ class Commander:
 
     def redo(self):
         if self._redo_stack:
-            cmd = self._redo_stack
+            cmd = self._redo_stack.pop()
             cmd.execute(self._robot)
             self._undo_stack(cmd)
 
 
 def main():
+    robot = Robot()
+    commander = Commander(robot)
+
+    while True:
+        command = input("Podaj polecenie (U,D,R,L) i odległość lub wycofanie (u) / ponowne wykoanie (r): ")
+        if command[0] in 'UDRL':
+            cmd_robot, steps = command.split()
+            steps = float(steps)
+            if cmd_robot == 'U':
+                cmd = MoveUp(steps)
+            elif cmd_robot == 'D':
+                cmd = MoveDown(steps)
+            elif cmd_robot == 'R':
+                cmd = MoveRight(steps)
+            else:
+                cmd = MoveLeft(steps)
+            commander.execute(cmd)
+        elif command[0] == 'u':
+            commander.undo()
+        elif command[0] == 'r':
+            commander.redo()
+        else:
+            break
+
+        print(robot)
+
+
+if __name__ == '__main__':
+    main()
 
